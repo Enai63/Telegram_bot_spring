@@ -7,13 +7,21 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.enai.Service.WeatherService;
+
+import java.io.IOException;
 
 @Component
 public class WeatherBot extends TelegramLongPollingBot {
+    private final WeatherService weatherService;
     @Value(value = "${spring.bot.name")
     private String botName;
     @Value(value = "${spring.bot.token}")
     private String botToken;
+
+    public WeatherBot(WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
 
     @Override
     public String getBotUsername() {
@@ -30,7 +38,9 @@ public class WeatherBot extends TelegramLongPollingBot {
         //check if the update has a message
         if(update.hasMessage()){
             Message message = update.getMessage();
-
+            if (message.getText().equals("start")) {
+                    weatherService.getURL(53.188589, 50.200346);
+            }
             //check if the message has text. it could also  contain for example a location ( message.hasLocation() )
             if(message.hasText()){
 
