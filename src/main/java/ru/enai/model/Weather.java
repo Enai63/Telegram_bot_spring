@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-
 @Getter
 @Setter
 @Component
@@ -25,8 +24,7 @@ public class Weather {
     private double WindSpeed10;        //speed10
     private int WindDegree10;       //degree10
 
-    public Weather() {
-
+    private Weather() {
     }
 
     @Override
@@ -50,33 +48,55 @@ public class Weather {
 
     @JsonCreator
     public Weather (
-            @JsonProperty("r") int r,
-            @JsonProperty("t") int t,
-            @JsonProperty("tp") double tp,
-            @JsonProperty("sp") float sp,
-            @JsonProperty("crain") int crain,
-            @JsonProperty("tstm") int tstm,
-            @JsonProperty("hcy") int hcy,
-            @JsonProperty("lcy") int lcy,
-            @JsonProperty("mcy") int mcy,
-            @JsonProperty("vis") float vis,
-            @JsonProperty("aptmp") int aptmp,
-            @JsonProperty("speed10") double speed10,
-            @JsonProperty("degree10") int degree10
+            @JsonProperty("speed10") double WindSpeed10,
+            @JsonProperty("degree10") int WindDegree10,
+            @JsonProperty("speed20") double WindSpeed20,
+            @JsonProperty("degree20") int WindDegree20,
+            @JsonProperty("speed30") double WindSpeed30,
+            @JsonProperty("degree30") int WindDegree30,
+            @JsonProperty("speed40") double WindSpeed40,
+            @JsonProperty("degree40") int WindDegree40,
+            @JsonProperty("speed50") double WindSpeed50,
+            @JsonProperty("degree50") int WindDegree50,
+            @JsonProperty("speed80") double WindSpeed80,
+            @JsonProperty("degree80") int WindDegree80,
+            @JsonProperty("speed100") double WindSpeed100,
+            @JsonProperty("degree100") int WindDegree100,
+            @JsonProperty("t") int Temperature,
+            @JsonProperty("tdmax") int TemperatureMax,
+            @JsonProperty("tdmin") int TemperatureMix,
+            @JsonProperty("aptmp") int ApparentTemperature,
+            @JsonProperty("r") int Humidity,
+            @JsonProperty("sp") float Pressure,
+            @JsonProperty("dswrf") int WaveRadiation,
+            @JsonProperty("lcy") int LowCloudy,
+            @JsonProperty("mcy") int MidlCloudy,
+            @JsonProperty("hcy") int HighCloudy,
+            @JsonProperty("tp") double TotalNumberOfPrecipitation,
+            @JsonProperty("crain") int Rainfall,
+            @JsonProperty("tstm") int Storm,
+            @JsonProperty("cprat") int ConvectivePrecipitationRate,
+            @JsonProperty("acpcp") int ConvectivePrecipitationWater,
+            @JsonProperty("cape") int ConvectiveAvailablePotentialEnergy,
+            @JsonProperty("prmsl") long PressureReducedToMSL,
+            @JsonProperty("vis") float Visibility,
+            @JsonProperty("cpofp") int 	PercentFrozenPrecipitation,
+            @JsonProperty("latitude") double Latitude,
+            @JsonProperty("longitude") double Longitude
             ) {
-        this.Humidity = r;
-        this.Temperature = t;
-        this.TotalNumberOfPrecipitation = tp;
-        this.Pressure = sp;
-        this.Rainfall = crain;
-        this.Storm = tstm;
-        this.HighCloudy = hcy;
-        this.LowCloudy = lcy;
-        this.MidlCloudy = mcy;
-        this.Visibility = vis;
-        this.ApparentTemperature = aptmp;
-        this.WindSpeed10 = speed10;
-        this.WindDegree10 = degree10;
+        this.Humidity = Humidity;
+        this.Temperature = Temperature;
+        this.TotalNumberOfPrecipitation = TotalNumberOfPrecipitation;
+        this.Pressure = Pressure;
+        this.Rainfall = Rainfall;
+        this.Storm = Storm;
+        this.HighCloudy = HighCloudy;
+        this.LowCloudy = LowCloudy;
+        this.MidlCloudy = MidlCloudy;
+        this.Visibility = Visibility;
+        this.ApparentTemperature = ApparentTemperature;
+        this.WindSpeed10 = WindSpeed10;
+        this.WindDegree10 = WindDegree10;
 
     }
 }
