@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 @Component
+@Scope("prototype")
 public class Weather {
     private int Humidity;         //r %
     private int Temperature;     //t C

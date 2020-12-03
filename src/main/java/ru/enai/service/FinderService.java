@@ -1,6 +1,6 @@
-package ru.enai.Service;
+package ru.enai.service;
 
-import com.fasterxml.jackson.core.JsonParser;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +33,7 @@ public class FinderService implements ServiceWeather {
         this.weather = weather;
     }
 
-    public void getParams(double lat, double lon) {
+    public Weather getWeather(double lat, double lon) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");;
         String url = String.format(URL, lat, lon, formatter.format(new Date()), WEATHER_TOKEN);
         HttpRequest request = HttpRequest.newBuilder()
@@ -43,14 +43,12 @@ public class FinderService implements ServiceWeather {
         System.out.println(url);
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            //JacksonJsonParser mapper = new JacksonJsonParser();
-            //Map<String, Object> map = mapper.parseMap(response.body());
             weather = new ObjectMapper()
                     .readerFor(Weather.class)
                     .readValue(response.body());
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return weather;
     }
 }
