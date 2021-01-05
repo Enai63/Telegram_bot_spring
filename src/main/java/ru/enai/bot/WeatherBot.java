@@ -7,8 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.enai.service.FinderService;
-import ru.enai.model.Weather;
+import ru.enai.Service.ServiceWeather;
 
 @Component
 public class WeatherBot extends TelegramLongPollingBot {
@@ -16,12 +15,11 @@ public class WeatherBot extends TelegramLongPollingBot {
     private String botName;
     @Value(value = "${spring.bot.token}")
     private String botToken;
-    private final FinderService finderService;
-    private Weather weather;
 
-    public WeatherBot(FinderService finderService, Weather weather) {
-        this.finderService = finderService;
-        this.weather = weather;
+    private ServiceWeather serviceWeather;
+
+    public WeatherBot(ServiceWeather serviceWeather) {
+        this.serviceWeather = serviceWeather;
     }
 
     @Override
@@ -42,11 +40,14 @@ public class WeatherBot extends TelegramLongPollingBot {
 
             //check if the message has text. it could also  contain for example a location ( message.hasLocation() )
             if(message.hasText() || message.getLocation() != null){
-                Weather currWeather = finderService.getWeather(message.getLocation().getLatitude(), message.getLocation().getLongitude());
+
                 //create a object that contains the information to send back the message
                 SendMessage sendMessageRequest = new SendMessage();
-                sendMessageRequest.setText(currWeather.toString());
                 sendMessageRequest.setChatId(message.getChatId().toString()); //who should get the message? the sender from which we got the message...
+                System.out.println(message.getLocation() + " " + message.getChatId());
+                if (message.getLocation() != null)
+                    serviceWeather.getWeatherLocation(message.getLocation());
+
                 try {
                     execute(sendMessageRequest); //at the end, so some magic and send the message ;)
                 } catch (TelegramApiException e) {
