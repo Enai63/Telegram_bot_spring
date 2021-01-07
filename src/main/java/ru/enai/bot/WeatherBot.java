@@ -39,15 +39,12 @@ public class WeatherBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
 
             //check if the message has text. it could also  contain for example a location ( message.hasLocation() )
-            if(message.hasText() || message.getLocation() != null){
-
+            if(message.getLocation() != null){
                 //create a object that contains the information to send back the message
                 SendMessage sendMessageRequest = new SendMessage();
                 sendMessageRequest.setChatId(message.getChatId().toString()); //who should get the message? the sender from which we got the message...
-                System.out.println(message.getLocation() + " " + message.getChatId());
-                if (message.getLocation() != null)
-                    serviceWeather.getWeatherLocation(message.getLocation());
-
+                    String weather = serviceWeather.getWeatherLocation(message.getLocation()).toString();
+                    sendMessageRequest.setText(weather);
                 try {
                     execute(sendMessageRequest); //at the end, so some magic and send the message ;)
                 } catch (TelegramApiException e) {

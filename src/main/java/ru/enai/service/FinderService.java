@@ -1,6 +1,8 @@
 package ru.enai.Service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Component;
@@ -9,28 +11,38 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 import ru.enai.model.Weather;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 
 
 @Component
 public class FinderService implements ServiceWeather {
+    private Weather weather;
     @Value("${weather.client.token}")
     private String WEATHER_TOKEN;
-    private final String URL = "api.openweathermap.org/data/2.5/weather";
-    private final StringBuilder stringBuilder = new StringBuilder(URL);
+    private final String baseURL = "http://api.openweathermap.org/data/2.5/weather";
 
+    private StringBuilder stringBuilder = new StringBuilder();
 
     private static final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(60))
             .followRedirects(HttpClient.Redirect.NORMAL)
             .build();
 
+    public FinderService(Weather weather) {
+        this.weather = weather;
+    }
+
     @Override
     public Weather getWeatherLocation(Location location) {
-        //String url = String.format(URL, location.getLatitude(), location.getLongitude(),  WEATHER_TOKEN);
         stringBuilder
+                .append(baseURL)
                 .append("?lat=")
                 .append(location.getLatitude())
                 .append("&lon=")
@@ -39,17 +51,24 @@ public class FinderService implements ServiceWeather {
                 .append("&appid=")
                 .append(WEATHER_TOKEN)
                 .append("&lang=ru");
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(stringBuilder.toString()))
-                .build();
+
+        String URL = new String(stringBuilder);
+
         try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(URL))
+                    .GET().build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-        } catch (IOException | InterruptedException e) {
+            weather = new ObjectMapper()
+                    .readerFor(Weather.class)
+                    .readValue(response.body());
+
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            System.out.println("error");
             e.printStackTrace();
         }
-        return null;
+
+        return weather;
     }
 
     @Override
