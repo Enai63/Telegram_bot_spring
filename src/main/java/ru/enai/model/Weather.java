@@ -1,6 +1,6 @@
 package ru.enai.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,42 +8,44 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.ArrayList;
+import java.util.List;
 @Getter
 @Setter
+@Component
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
-    private JsonNode weather;
+    @JsonProperty("weather")
+    private List<Object> weather = new ArrayList<>();
+    @JsonProperty("main")
     private Main main;
+    @JsonProperty("visibility")
     private int visibility;
+    @JsonProperty("wind")
     private Wind wind;
+    @JsonProperty("snow")
     private JsonNode snow;
+    @JsonProperty("rain")
     private JsonNode rain;
+    @JsonProperty("clouds")
     private JsonNode clouds;
+    @JsonProperty("dt")
     private String date;
+    @JsonProperty("sys")
     private Sys sys;
+    @JsonProperty("timezone")
     private String timezone;
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
     private String nameCity;
-    private int code;
+    @JsonProperty("cod")
+    private int cod;
 
     public Weather() {
     }
 
-    @JsonCreator
-    public Weather(@JsonProperty("weather") JsonNode weather,
-                   @JsonProperty("main") Main main,
-                   @JsonProperty("visibility") int visibility,
-                   @JsonProperty("wind") Wind wind,
-                   @JsonProperty("snow") JsonNode snow,
-                   @JsonProperty("rain") JsonNode  rain,
-                   @JsonProperty("clouds") JsonNode clouds,
-                   @JsonProperty("dt") String date,
-                   @JsonProperty("sys") Sys sys,
-                   @JsonProperty("timezone") String timezone,
-                   @JsonProperty("id") Long id,
-                   @JsonProperty("name") String nameCity,
-                   @JsonProperty("cod") int cod) {
+    public Weather(List<Object> weather, Main main, int visibility, Wind wind, JsonNode snow, JsonNode rain, JsonNode clouds, String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
         this.weather = weather;
         this.main = main;
         this.visibility = visibility;
@@ -56,7 +58,7 @@ public class Weather {
         this.timezone = timezone;
         this.id = id;
         this.nameCity = nameCity;
-        this.code = cod;
+        this.cod = cod;
     }
 
     @Getter
@@ -117,43 +119,7 @@ public class Weather {
         }
     }
 
-//    @Getter
-//    @Setter
-//    private static class Snow {
-//
-//        private String value;
-//
-//        public Snow() {
-//        }
-//
-//        public Snow(String  value) {
-//            this.value = value;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return value.toString();
-//        }
-//    }
-//
-//    @Getter
-//    @Setter
-//    private static class Rain {
-//
-//        private String value;
-//
-//        public Rain() {
-//        }
-//
-//        public Rain(String value) {
-//            this.value = value;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return value.toString();
-//        }
-//    }
+
 
     @Getter
     @Setter

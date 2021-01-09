@@ -1,17 +1,16 @@
-package ru.enai.Service;
+package ru.enai.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
+import ru.enai.model.CurrentWeatherLocation;
 import ru.enai.model.Weather;
 
 import java.io.IOException;
-import java.net.Authenticator;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -22,6 +21,7 @@ import java.time.Duration;
 
 @Component
 public class FinderService implements ServiceWeather {
+
     private Weather weather;
     @Value("${weather.client.token}")
     private String WEATHER_TOKEN;
@@ -38,6 +38,7 @@ public class FinderService implements ServiceWeather {
     public FinderService(Weather weather) {
         this.weather = weather;
     }
+
 
     @Override
     public Weather getWeatherLocation(Location location) {

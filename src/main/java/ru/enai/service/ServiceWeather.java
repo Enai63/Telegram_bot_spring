@@ -1,4 +1,4 @@
-package ru.enai.Service;
+package ru.enai.service;
 
 
 import org.telegram.telegrambots.meta.api.objects.Location;
