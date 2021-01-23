@@ -1,11 +1,6 @@
-package ru.enai.service;
+package ru.enai.Service;
 
-
-import org.telegram.telegrambots.meta.api.objects.Location;
-import ru.enai.model.Weather;
 
 public interface ServiceWeather {
-    Weather getWeatherLocation(Location location);
-
-    Weather getWeatherCity(String nameCity);
+    void getParams(double lat, double lon);
 }
