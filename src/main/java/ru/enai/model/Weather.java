@@ -24,9 +24,9 @@ public class Weather {
     @JsonProperty("wind")
     private Wind wind;
     @JsonProperty("snow")
-    private JsonNode snow;
+    private Snow snow;
     @JsonProperty("rain")
-    private JsonNode rain;
+    private Rain rain;
     @JsonProperty("clouds")
     private JsonNode clouds;
     @JsonProperty("dt")
@@ -45,7 +45,7 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(List<Object> weather, Main main, int visibility, Wind wind, JsonNode snow, JsonNode rain, JsonNode clouds, String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
+    public Weather(List<Object> weather, Main main, int visibility, Wind wind, Snow snow, Rain rain, JsonNode clouds, String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
         this.weather = weather;
         this.main = main;
         this.visibility = visibility;
@@ -189,5 +189,53 @@ public class Weather {
                 ", id=" + id +
                 ", nameCity='" + nameCity + '\'' +
                 '}';
+    }
+
+    @Getter
+    @Setter
+    private static class Snow {
+        @JsonProperty("1h")
+        private String snow1h;
+        @JsonProperty("3h")
+        private String snow3h;
+
+        public Snow() {
+        }
+
+        public Snow(String snow1h, String snow3h) {
+            this.snow1h = snow1h;
+            this.snow3h = snow3h;
+        }
+
+        @Override
+        public String toString() {
+            if (snow1h != null && snow3h == null) return "Snow: " + snow1h;
+            if (snow1h == null && snow3h != null) return "Snow: " + snow3h;
+            return "";
+        }
+    }
+
+    @Getter
+    @Setter
+    private static class Rain {
+        @JsonProperty("1h")
+        private String rain1h;
+        @JsonProperty("3h")
+        private String rain3h;
+
+        public Rain() {
+        }
+
+        public Rain(String rain1h, String rain3h) {
+            this.rain1h = rain1h;
+            this.rain3h = rain3h;
+        }
+
+        @Override
+        public String toString() {
+            if (rain1h != null && rain3h == null) return "Snow: " + rain1h;
+            if (rain1h == null && rain3h != null) return "Snow: " + rain3h;
+            return "";
+        }
     }
 }

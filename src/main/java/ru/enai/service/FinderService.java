@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
-import ru.enai.model.CurrentWeatherLocation;
 import ru.enai.model.Weather;
 
 import java.io.IOException;
