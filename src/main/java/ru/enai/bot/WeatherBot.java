@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -12,7 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.enai.service.ServiceWeather;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class WeatherBot extends TelegramLongPollingBot {
     @Value(value = "${spring.bot.token}")
     private String botToken;
 
-    private ServiceWeather serviceWeather;
+    private final ServiceWeather serviceWeather;
 
     public WeatherBot(ServiceWeather serviceWeather) {
         this.serviceWeather = serviceWeather;
@@ -95,6 +93,7 @@ public class WeatherBot extends TelegramLongPollingBot {
 
         KeyboardButton buttonOne = new KeyboardButton();
         buttonOne.setText("Ваша геолокация");
+        buttonOne.setRequestLocation(true);
         buttonOne.getRequestLocation();
 
 
