@@ -10,9 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.enai.model.Weather;
 import ru.enai.service.ServiceWeather;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 @Component
 public class WeatherBot extends TelegramLongPollingBot {
@@ -20,6 +21,8 @@ public class WeatherBot extends TelegramLongPollingBot {
     private String botName;
     @Value(value = "${spring.bot.token}")
     private String botToken;
+
+    private List<Long> listChatID = new ArrayList<>();
 
     private final ServiceWeather serviceWeather;
 
@@ -37,44 +40,40 @@ public class WeatherBot extends TelegramLongPollingBot {
         return botToken;
     }
 
-//    @Override
-//    public void onUpdateReceived(Update update) {
-//        //check if the update has a message
-//        if(update.hasMessage()){
-//            Message message = update.getMessage();
-//            //check if the message has text. it could also  contain for example a location ( message.hasLocation() )
-//            if(message.getLocation() != null){
-//                //create a object that contains the information to send back the message
-//                SendMessage sendMessageRequest = new SendMessage();
-//                sendMessageRequest.setChatId(message.getChatId().toString()); //who should get the message? the sender from which we got the message...
-//                    String weather = serviceWeather.getWeatherLocation(message.getLocation()).toString();
-//                    sendMessageRequest.setText(weather);
-//                try {
-//                    execute(sendMessageRequest); //at the end, so some magic and send the message ;)
-//                } catch (TelegramApiException e) {
-//                    //do some error handling
-//                }//end catch()
-//            }//end if()
-//        }//end  if()
-//    }
     @Override
     public void onUpdateReceived(Update update) {
-        //check if the update has a message
         if (update.hasMessage()) {
             Message message = update.getMessage();
-
-            System.out.println(message.getText() + " " + message.getLocation());
-            if ("Привет".equals(message.getText())) {
+            if ("/Start".equals(message.getText())) {
+                listChatID.add(message.getChatId());
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.enableMarkdown(true);
                 sendMessage.setReplyMarkup(getKeyboard());
                 sendMessage.setReplyToMessageId(message.getMessageId());
                 sendMessage.setChatId(message.getChatId().toString());
-                sendMessage.setText("Хэлоу");
+                sendMessage.setText("Выберите из: Локации или Название населенного пунткта");
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
+                }
+            } else {
+                if (listChatID.contains(message.getChatId())) {
+                    if (message.getLocation() != null) {
+                        Weather weather = serviceWeather.getWeatherLocation(message.getLocation());
+                        listChatID.remove(message.getChatId());
+                    }
+                    if ("Насселенный пункт".equals(message.getText())) {
+                        SendMessage sendMessage = new SendMessage();
+                        sendMessage.setReplyToMessageId(message.getMessageId());
+                        sendMessage.setChatId(message.getChatId().toString());
+                        sendMessage.setText("В ответ на это сообщение отправте название населенного пункта");
+                        try {
+                            execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -88,7 +87,6 @@ public class WeatherBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
-
         KeyboardRow oneKeyboardRow = new KeyboardRow();
 
         KeyboardButton buttonOne = new KeyboardButton();
@@ -96,9 +94,8 @@ public class WeatherBot extends TelegramLongPollingBot {
         buttonOne.setRequestLocation(true);
         buttonOne.getRequestLocation();
 
-
         KeyboardButton buttonTwo = new KeyboardButton();
-        buttonTwo.setText("Вашь город");
+        buttonTwo.setText("Насселенный пункт");
         buttonTwo.getText();
 
         oneKeyboardRow.add(buttonOne);

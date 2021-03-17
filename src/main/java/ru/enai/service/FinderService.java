@@ -4,6 +4,7 @@ package ru.enai.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import ru.enai.model.Weather;
@@ -18,7 +19,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 
-@Component
+@Service
 public class FinderService implements ServiceWeather {
 
     private Weather weather;

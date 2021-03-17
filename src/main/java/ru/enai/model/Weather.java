@@ -45,7 +45,8 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(List<Object> weather, Main main, int visibility, Wind wind, Snow snow, Rain rain, JsonNode clouds, String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
+    public Weather(List<Object> weather, Main main, int visibility, Wind wind, Snow snow, Rain rain, JsonNode clouds,
+                   String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
         this.weather = weather;
         this.main = main;
         this.visibility = visibility;
@@ -59,6 +60,25 @@ public class Weather {
         this.id = id;
         this.nameCity = nameCity;
         this.cod = cod;
+    }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "weather=" + weather +
+                ", main=" + main +
+                ", visibility=" + visibility +
+                ", wind=" + wind +
+                ", snow=" + snow +
+                ", rain=" + rain +
+                ", clouds=" + clouds +
+                ", date='" + date + '\'' +
+                ", sys=" + sys +
+                ", timezone='" + timezone + '\'' +
+                ", id=" + id +
+                ", nameCity='" + nameCity + '\'' +
+                ", cod=" + cod +
+                '}';
     }
 
     @Getter
@@ -171,24 +191,6 @@ public class Weather {
                     ", sunset=" + sunset +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Weather{" +
-                "weather=" + weather +
-                ", main=" + main +
-                ", visibility=" + visibility +
-                ", wind=" + wind +
-                ", snow=" + snow +
-                ", rain=" + rain +
-                ", clouds=" + clouds +
-                ", date='" + date + '\'' +
-                ", sys=" + sys +
-                ", timezone='" + timezone + '\'' +
-                ", id=" + id +
-                ", nameCity='" + nameCity + '\'' +
-                '}';
     }
 
     @Getter
