@@ -1,6 +1,8 @@
 package ru.enai.bot;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,7 +19,7 @@ import java.util.*;
 
 @Component
 public class WeatherBot extends TelegramLongPollingBot {
-    @Value(value = "${spring.bot.name")
+    @Value(value = "${spring.bot.name}")
     private String botName;
     @Value(value = "${spring.bot.token}")
     private String botToken;
@@ -44,7 +46,7 @@ public class WeatherBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
-            if ("/Start".equals(message.getText())) {
+            if ("/start".equals(message.getText())) {
                 listChatID.add(message.getChatId());
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.enableMarkdown(true);
@@ -60,10 +62,17 @@ public class WeatherBot extends TelegramLongPollingBot {
             } else {
                 if (listChatID.contains(message.getChatId())) {
                     if (message.getLocation() != null) {
+                        SendMessage sendMessage = new SendMessage();
                         Weather weather = serviceWeather.getWeatherLocation(message.getLocation());
+                        sendMessage.setChatId(message.getChatId().toString());
+                        sendMessage.setText(weather.toString());
+                        try {
+                            execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
                         listChatID.remove(message.getChatId());
-                    }
-                    if ("Насселенный пункт".equals(message.getText())) {
+                    } else if ("Насселенный пункт".equals(message.getText())) {
                         SendMessage sendMessage = new SendMessage();
                         sendMessage.setReplyToMessageId(message.getMessageId());
                         sendMessage.setChatId(message.getChatId().toString());
@@ -73,6 +82,19 @@ public class WeatherBot extends TelegramLongPollingBot {
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
                         }
+
+                    } else {
+                        SendMessage sendMessage = new SendMessage();
+                        sendMessage.setChatId(message.getChatId().toString());
+                        Weather weather = serviceWeather.getWeatherCity(message.getText());
+                        sendMessage.setText(weather.toString());
+                        listChatID.remove(message.getChatId());
+                        try {
+                            execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(weather.toString());
                     }
                 }
             }
@@ -84,7 +106,7 @@ public class WeatherBot extends TelegramLongPollingBot {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow oneKeyboardRow = new KeyboardRow();
