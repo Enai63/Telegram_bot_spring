@@ -81,15 +81,17 @@ public class FinderService implements ServiceWeather {
         stringBuilder
                 .append("?q=")
                 .append(nameCity)
+                .append("&units=metric")
                 .append("&appid=")
                 .append(WEATHER_TOKEN)
                 .append("&lang=ru")
+
         ;
 
         String URL = stringBuilder.toString();
         System.out.println("Name city");
         System.out.println(URL);
-        stringBuilder.delete(baseURL.length(), stringBuilder.length() - 1);
+        stringBuilder.delete(baseURL.length(), stringBuilder.length());
 
         try {
             HttpRequest request = HttpRequest.newBuilder()

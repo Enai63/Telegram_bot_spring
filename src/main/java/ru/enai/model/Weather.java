@@ -64,25 +64,12 @@ public class Weather {
 
     @Override
     public String toString() {
-        return "Weather{" +
-                "weather=" + weather +
-                ", main=" + main +
-                ", visibility=" + visibility +
-                ", wind=" + wind +
-                ", snow=" + snow +
-                ", rain=" + rain +
-                ", clouds=" + clouds +
-                ", date='" + date + '\'' +
-                ", sys=" + sys +
-                ", timezone='" + timezone + '\'' +
-                ", id=" + id +
-                ", nameCity='" + nameCity + '\'' +
-                ", cod=" + cod +
-                '}';
+        return weather.get(0) + " " + weather.get(1) + " " + weather.get(2);
     }
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Main {
         private int temp;
         private float feels_like;
@@ -118,6 +105,7 @@ public class Weather {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Wind {
         private int speed;
         private int deg;
@@ -143,6 +131,7 @@ public class Weather {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Clouds {
         private int clouds;
 
@@ -163,6 +152,7 @@ public class Weather {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Sys {
         private int type;
         private Long id;
@@ -195,6 +185,7 @@ public class Weather {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Snow {
         @JsonProperty("1h")
         private String snow1h;
@@ -219,6 +210,7 @@ public class Weather {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Rain {
         @JsonProperty("1h")
         private String rain1h;

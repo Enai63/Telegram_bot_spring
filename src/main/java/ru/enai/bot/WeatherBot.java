@@ -1,8 +1,6 @@
 package ru.enai.bot;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -50,7 +48,7 @@ public class WeatherBot extends TelegramLongPollingBot {
                 listChatID.add(message.getChatId());
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.enableMarkdown(true);
-                sendMessage.setReplyMarkup(getKeyboard());
+                sendMessage.setReplyMarkup(getKeyboardService());
                 sendMessage.setReplyToMessageId(message.getMessageId());
                 sendMessage.setChatId(message.getChatId().toString());
                 sendMessage.setText("Выберите из: Локации или Название населенного пунткта");
@@ -66,6 +64,8 @@ public class WeatherBot extends TelegramLongPollingBot {
                         Weather weather = serviceWeather.getWeatherLocation(message.getLocation());
                         sendMessage.setChatId(message.getChatId().toString());
                         sendMessage.setText(weather.toString());
+                        sendMessage.setReplyMarkup(getKeyboardStart());
+                        sendMessage.setReplyToMessageId(message.getMessageId());
                         try {
                             execute(sendMessage);
                         } catch (TelegramApiException e) {
@@ -88,21 +88,21 @@ public class WeatherBot extends TelegramLongPollingBot {
                         sendMessage.setChatId(message.getChatId().toString());
                         Weather weather = serviceWeather.getWeatherCity(message.getText());
                         sendMessage.setText(weather.toString());
+                        sendMessage.setReplyMarkup(getKeyboardStart());
+                        sendMessage.setReplyToMessageId(message.getMessageId());
                         listChatID.remove(message.getChatId());
                         try {
                             execute(sendMessage);
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
                         }
-                        System.out.println(weather.toString());
                     }
                 }
             }
         }
     }
 
-
-    private ReplyKeyboardMarkup getKeyboard() {
+    private ReplyKeyboardMarkup getKeyboardService() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -129,4 +129,20 @@ public class WeatherBot extends TelegramLongPollingBot {
 
         return replyKeyboardMarkup;
     }
+
+    private ReplyKeyboardMarkup getKeyboardStart() {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow oneKeyboardRow = new KeyboardRow();
+        KeyboardButton buttonOne = new KeyboardButton();
+        buttonOne.setText("/start");
+        buttonOne.getText();
+        oneKeyboardRow.add(buttonOne);
+        keyboard.add(oneKeyboardRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        return replyKeyboardMarkup;
+    }
+
 }
