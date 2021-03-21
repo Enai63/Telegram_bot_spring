@@ -64,22 +64,56 @@ public class Weather {
     @Override
     public String toString() {
         String description = getDescriptionWeather(weather); //Move toString or not
-        return "Погодные условия: " + description + "\n" +
-                "Место: " + nameCity + "\n" +
-                "Дата: " + date + "\n" +
-                main + "\n" +
-                wind + "\n" +
-                clouds + "\n" +
-                sys + "\n" +
-                rain + "\n" +
-                snow;
-
+        if (rain == null && snow == null) {
+            return "Погодные условия: " + description + "\n" +
+                    "Место: " + nameCity + "\n" +
+                    "Дата: " + date + "\n" +
+                    "Видимость: " + visibility + "m" + "\n" +
+                    main + "\n" +
+                    wind + "\n" +
+                    clouds + "\n" +
+                    sys + "\n";
+        }
+        else if(rain != null) {
+            return "Погодные условия: " + description + "\n" +
+                    "Место: " + nameCity + "\n" +
+                    "Дата: " + date + "\n" +
+                    "Видимость: " + visibility + "m" + "\n" +
+                    main + "\n" +
+                    wind + "\n" +
+                    clouds + "\n" +
+                    sys + "\n" +
+                    rain;
+        }
+        else if (snow != null) {
+            return "Погодные условия: " + description + "\n" +
+                    "Место: " + nameCity + "\n" +
+                    "Дата: " + date + "\n" +
+                    "Видимость: " + visibility + "m" + "\n" +
+                    main + "\n" +
+                    wind + "\n" +
+                    clouds + "\n" +
+                    sys + "\n" +
+                    snow;
+        } else {
+            return "Погодные условия: " + description + "\n" +
+                    "Место: " + nameCity + "\n" +
+                    "Дата: " + date + "\n" +
+                    "Видимость: " + visibility + "m" + "\n" +
+                    main + "\n" +
+                    wind + "\n" +
+                    clouds + "\n" +
+                    sys + "\n" +
+                    rain + "\n" +
+                    snow;
+        }
     }
 
     private String getDescriptionWeather(List<Object> weather) {
         String[] arrDescription = weather.get(0).toString().split(", ");
         return arrDescription[2].substring(12);
     }
+
 
     @Getter
     @Setter
@@ -205,9 +239,9 @@ public class Weather {
 
         @Override
         public String toString() {
-            if (snow1h != null && snow3h == null) return "Снег 1 час: " + snow1h;
-            if (snow1h == null && snow3h != null) return "Снег 3 часа: " + snow3h;
-            return "";
+            if (snow1h != null && snow3h == null) return "Снег 1 час: " + snow1h + "mm";
+            if (snow1h == null && snow3h != null) return "Снег 3 часа: " + snow3h + "mm";
+            return "Осадков нет";
         }
     }
 
@@ -228,11 +262,12 @@ public class Weather {
             this.rain3h = rain3h;
         }
 
+
         @Override
         public String toString() {
-            if (rain1h != null && rain3h == null) return "Дождь 1 час: " + rain1h;
-            if (rain1h == null && rain3h != null) return "Дождь 3 часа:  " + rain3h;
-            return "";
+            if (rain1h != null && rain3h == null) return "Дождь 1 час: " + rain1h + "mm";
+            if (rain1h == null && rain3h != null) return "Дождь 3 часа:  " + rain3h + "mm";
+            return "Осадков нет";
         }
     }
 }

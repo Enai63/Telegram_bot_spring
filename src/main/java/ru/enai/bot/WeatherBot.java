@@ -41,7 +41,7 @@ public class WeatherBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
+    public void onUpdateReceived(Update update) {      //TODO Refactorings this method
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if ("/start".equals(message.getText())) {
