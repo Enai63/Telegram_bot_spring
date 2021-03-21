@@ -65,6 +65,8 @@ public class Weather {
     public String toString() {
         String description = getDescriptionWeather(weather); //Move toString or not
         return "Погодные условия: " + description + "\n" +
+                "Место: " + nameCity + "\n" +
+                "Дата: " + date + "\n" +
                 main + "\n" +
                 wind + "\n" +
                 clouds + "\n" +
