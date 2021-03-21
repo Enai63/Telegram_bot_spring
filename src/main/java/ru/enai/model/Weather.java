@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Getter
 @Setter
@@ -64,7 +65,20 @@ public class Weather {
 
     @Override
     public String toString() {
-        return weather.get(0) + " " + weather.get(1) + " " + weather.get(2);
+        String description = getDescriptionWeather(weather);
+        return "Погодные условия: " + description + "\n" +
+                "Температура: " + main.temp + "℃" + "\n" +
+                "Ощущается как: " + main.feels_like + "℃" + "\n" +
+                "Атмосферное давление: " + main.pressure + "hPa" + "\n" +
+                "Влажность: " + main.humidity + "%" + "\n" +
+                "Направление ветра: " + wind.deg + "deg" + "\n" +
+                "Скорость ветра: " + wind.speed + "m\\s" + "\n";
+
+    }
+
+    private String getDescriptionWeather(List<Object> weather) {
+        String[] arrDescription = weather.get(0).toString().split(", ");
+        return arrDescription[2].substring(12);
     }
 
     @Getter

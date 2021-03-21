@@ -3,8 +3,6 @@ package ru.enai.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
@@ -26,8 +24,8 @@ public class FinderService implements ServiceWeather {
     private Weather weather;
     @Value("${weather.client.token}")
     private String WEATHER_TOKEN;
-    private String baseURL = "http://api.openweathermap.org/data/2.5/weather";
-    private StringBuilder stringBuilder = new StringBuilder(baseURL);
+    private String BASEURL = "http://api.openweathermap.org/data/2.5/weather";
+    private StringBuilder stringBuilder = new StringBuilder(BASEURL);
 
     private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -53,9 +51,7 @@ public class FinderService implements ServiceWeather {
                 .append("&lang=ru");
 
         String URL = stringBuilder.toString();
-        System.out.println(URL);
-        System.out.println("Location");
-        stringBuilder.delete(baseURL.length(), stringBuilder.length());
+        stringBuilder.delete(BASEURL.length(), stringBuilder.length());
 
 
 
@@ -84,14 +80,10 @@ public class FinderService implements ServiceWeather {
                 .append("&units=metric")
                 .append("&appid=")
                 .append(WEATHER_TOKEN)
-                .append("&lang=ru")
-
-        ;
+                .append("&lang=ru");
 
         String URL = stringBuilder.toString();
-        System.out.println("Name city");
-        System.out.println(URL);
-        stringBuilder.delete(baseURL.length(), stringBuilder.length());
+        stringBuilder.delete(BASEURL.length(), stringBuilder.length());
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
