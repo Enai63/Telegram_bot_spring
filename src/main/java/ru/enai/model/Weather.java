@@ -63,15 +63,14 @@ public class Weather {
 
     @Override
     public String toString() {
-        String description = getDescriptionWeather(weather);                     //Move toString or not
+        String description = getDescriptionWeather(weather); //Move toString or not
         return "Погодные условия: " + description + "\n" +
-                "Температура: " + main.temp + "℃" + "\n" +
-                "Ощущается как: " + main.feels_like + "℃" + "\n" +
-                "Атмосферное давление: " + main.pressure + "hPa" + "\n" +
-                "Влажность: " + main.humidity + "%" + "\n" +
-                "Направление ветра: " + wind.deg + "deg" + "\n" +
-                "Скорость ветра: " + wind.speed + "m\\s" + "\n" +
-                "Облачность: " + clouds;
+                main + "\n" +
+                wind + "\n" +
+                clouds + "\n" +
+                sys + "\n" +
+                rain + "\n" +
+                snow;
 
     }
 
@@ -105,14 +104,12 @@ public class Weather {
 
         @Override
         public String toString() {
-            return "Main{" +
-                    "temp=" + temp +
-                    ", feels_like=" + feels_like +
-                    ", temp_min=" + temp_min +
-                    ", temp_max=" + temp_max +
-                    ", pressure=" + pressure +
-                    ", humidity=" + humidity +
-                    '}';
+            return "Температура: " + temp + "℃" + "\n" +
+                    "Ощущается как: " + feels_like + "℃" + "\n" +
+                    "Минимальная температура: " + temp_min + "℃" + "\n" +
+                    "Максимальня температура: " + temp_max + "℃" + "\n" +
+                    "Атмосферное давление: " + pressure + "hPa" + "\n" +
+                    "Влажность воздуха: " + humidity + "%";
         }
     }
 
@@ -133,10 +130,7 @@ public class Weather {
 
         @Override
         public String toString() {
-            return "Wind{" +
-                    "speed=" + speed +
-                    ", deg=" + deg +
-                    '}';
+            return "Ветер, направление: " + deg + "deg" + " скорость: " + speed + "m\\s";
         }
     }
 
@@ -157,7 +151,7 @@ public class Weather {
 
         @Override
         public String toString() {
-            return all + "%";
+            return  "Облачность: " + all + "%";
         }
     }
 
@@ -184,13 +178,9 @@ public class Weather {
 
         @Override
         public String toString() {
-            return "Sys{" +
-                    "type=" + type +
-                    ", id=" + id +
-                    ", countryCode='" + country + '\'' +
-                    ", sunrise=" + sunrise +
-                    ", sunset=" + sunset +
-                    '}';
+            return "Страна: " + country + "\n" +
+                    "Рассвет: " + sunrise + "\n" +
+                    "Закат: " + sunset;
         }
     }
 
@@ -213,8 +203,8 @@ public class Weather {
 
         @Override
         public String toString() {
-            if (snow1h != null && snow3h == null) return "Snow: " + snow1h;
-            if (snow1h == null && snow3h != null) return "Snow: " + snow3h;
+            if (snow1h != null && snow3h == null) return "Снег 1 час: " + snow1h;
+            if (snow1h == null && snow3h != null) return "Снег 3 часа: " + snow3h;
             return "";
         }
     }
@@ -238,8 +228,8 @@ public class Weather {
 
         @Override
         public String toString() {
-            if (rain1h != null && rain3h == null) return "Snow: " + rain1h;
-            if (rain1h == null && rain3h != null) return "Snow: " + rain3h;
+            if (rain1h != null && rain3h == null) return "Дождь 1 час: " + rain1h;
+            if (rain1h == null && rain3h != null) return "Дождь 3 часа:  " + rain3h;
             return "";
         }
     }
