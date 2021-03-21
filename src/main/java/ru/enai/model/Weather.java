@@ -3,13 +3,11 @@ package ru.enai.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class Weather {
     @JsonProperty("rain")
     private Rain rain;
     @JsonProperty("clouds")
-    private JsonNode clouds;
+    private Clouds clouds;
     @JsonProperty("dt")
     private String date;
     @JsonProperty("sys")
@@ -46,7 +44,7 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(List<Object> weather, Main main, int visibility, Wind wind, Snow snow, Rain rain, JsonNode clouds,
+    public Weather(List<Object> weather, Main main, int visibility, Wind wind, Snow snow, Rain rain, Clouds clouds,
                    String date, Sys sys, String timezone, Long id, String nameCity, int cod) {
         this.weather = weather;
         this.main = main;
@@ -65,14 +63,15 @@ public class Weather {
 
     @Override
     public String toString() {
-        String description = getDescriptionWeather(weather);
+        String description = getDescriptionWeather(weather);                     //Move toString or not
         return "Погодные условия: " + description + "\n" +
                 "Температура: " + main.temp + "℃" + "\n" +
                 "Ощущается как: " + main.feels_like + "℃" + "\n" +
                 "Атмосферное давление: " + main.pressure + "hPa" + "\n" +
                 "Влажность: " + main.humidity + "%" + "\n" +
                 "Направление ветра: " + wind.deg + "deg" + "\n" +
-                "Скорость ветра: " + wind.speed + "m\\s" + "\n";
+                "Скорость ветра: " + wind.speed + "m\\s" + "\n" +
+                "Облачность: " + clouds;
 
     }
 
@@ -145,22 +144,20 @@ public class Weather {
 
     @Getter
     @Setter
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Clouds {
-        private int clouds;
+        private String all;
 
         public Clouds() {
         }
 
-        public Clouds(int clouds) {
-            this.clouds = clouds;
+        public Clouds(String all) {
+            this.all = all;
+
         }
 
         @Override
         public String toString() {
-            return "Clouds{" +
-                    "clouds=" + clouds + "%" +
-                    '}';
+            return all + "%";
         }
     }
 
