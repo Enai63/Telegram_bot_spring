@@ -1,6 +1,6 @@
 # Project exclude paths
 /target/
-.idea
+/.idea
 Telegram_bot_spring.iml
 application.properties
-/api/
+*.http
