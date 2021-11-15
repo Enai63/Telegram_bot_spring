@@ -10,8 +10,5 @@
         <module name="Telegram_bot_spring" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Telegram_bot_spring" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
