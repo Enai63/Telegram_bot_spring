@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-@Qualifier("locationMessage")
-@Component
+//@Qualifier("locationMessage")
+//@Component
 public class LocationMessage implements MessageCreator {
 
 

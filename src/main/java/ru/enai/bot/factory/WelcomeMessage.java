@@ -12,8 +12,8 @@ import ru.enai.bot.Constant;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@Qualifier("welcomeMessage")
+//@Component
+//@Qualifier("welcomeMessage")
 public class WelcomeMessage implements MessageCreator {
 
     @Override
