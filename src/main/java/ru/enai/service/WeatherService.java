@@ -3,6 +3,7 @@ package ru.enai.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
@@ -17,9 +18,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-
 @Service
-public class FinderService implements ServiceWeather {
+public class WeatherService implements GetWeather {
 
     private Weather weather;
     @Value("${weather.client.token}")
@@ -33,13 +33,10 @@ public class FinderService implements ServiceWeather {
             .followRedirects(HttpClient.Redirect.NORMAL)
             .build();
 
-    public FinderService(Weather weather) {
-        this.weather = weather;
-    }
 
 
     @Override
-    public Weather getWeatherLocation(Location location) {
+    public Weather getWeather(Location location) {
         stringBuilder
                 .append("?lat=")
                 .append(location.getLatitude())
@@ -73,7 +70,7 @@ public class FinderService implements ServiceWeather {
     }
 
     @Override
-    public Weather getWeatherCity(String nameCity) {
+    public Weather getWeather(String nameCity) {
         stringBuilder
                 .append("?q=")
                 .append(nameCity)

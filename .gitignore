@@ -4,3 +4,4 @@
 Telegram_bot_spring.iml
 application.properties
 *.http
+*.properties
