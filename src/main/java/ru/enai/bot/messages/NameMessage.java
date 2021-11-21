@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.enai.service.GetWeather;
 import ru.enai.service.WeatherService;
 
 import java.util.ArrayList;
@@ -16,11 +15,10 @@ public class NameMessage implements MessageCreator {
 
     @Override
     public SendMessage createMessage(Message message) {
-        GetWeather getWeather = new WeatherService();
         SendMessage sendMessage= new SendMessage();
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyMarkup(getKeyboardStart());
-        sendMessage.setText(getWeather.getWeather(message.getText()).toString());
+        sendMessage.setText(new WeatherService().getWeather(message.getText()).toString());
         return sendMessage;
     }
 
